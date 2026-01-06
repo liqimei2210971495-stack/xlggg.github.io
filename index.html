@@ -2,6 +2,7 @@
 <html lang="zh-CN">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>星露谷物语新手攻略&趣味合集</title>
   <style>
     * {
@@ -9,6 +10,11 @@
       padding: 0;
       box-sizing: border-box;
     }
+
+    html {
+      scroll-behavior: smooth; /* 平滑滚动 */
+    }
+
     body {
       background-color: #f9f5e7;
       background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%238bc34a' fill-opacity='0.05' fill-rule='evenodd'/%3E%3C/svg%3E");
@@ -17,169 +23,410 @@
       max-width: 1200px;
       margin: 0 auto;
       padding: 20px;
-      line-height: 1.6;
+      line-height: 1.8; /* 增加行高提升可读性 */
+    }
+
+    /* 返回顶部按钮（优化z-index确保不被遮挡） */
+    .back-to-top {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      background: linear-gradient(135deg, #8bc34a, #689f38);
+      color: white;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s ease;
+      font-size: 1.5rem;
+      z-index: 9999; /* 提高层级，避免被遮挡 */
+      cursor: pointer; /* 明确鼠标指针样式 */
+    }
+
+    .back-to-top.show {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .back-to-top:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 6px 16px rgba(0,0,0,0.3);
     }
 
     h1 {
       text-align: center;
       color: #8b4513;
-      font-size: 2.8rem;
+      font-size: 3rem; /* 稍微增大标题 */
+      margin: 40px 0 20px;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.15);
+      letter-spacing: 3px;
+      background: linear-gradient(135deg, #8b4513, #c06c84);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent; /* 渐变文字 */
+      position: relative;
+    }
+
+    h1::after {
+      content: "";
+      display: block;
+      width: 200px;
+      height: 4px;
+      background: linear-gradient(90deg, transparent, #8bc34a, transparent);
+      margin: 15px auto;
+      border-radius: 2px;
+    }
+
+    /* 图片容器优化 */
+    .image-container {
+      display: flex;
+      justify-content: center;
+      gap: 30px;
+      flex-wrap: wrap;
       margin: 30px 0;
-      text-shadow: 2px 2px 3px rgba(0,0,0,0.1);
-      letter-spacing: 2px;
+    }
+
+    .image-container img {
+      width: 400px;
+      max-width: 100%;
+      border-radius: 12px;
+      box-shadow: 0 6px 16px rgba(0,0,0,0.15);
+      transition: all 0.4s ease;
+      border: 4px solid white;
+    }
+
+    .image-container img:hover {
+      transform: translateY(-10px) scale(1.02);
+      box-shadow: 0 12px 24px rgba(0,0,0,0.2);
     }
 
     .nav-container {
-      background-color: #8bc34a;
-      border-radius: 12px;
-      padding: 15px 0;
-      margin: 20px 0 40px 0;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      background: linear-gradient(135deg, #8bc34a, #689f38); /* 渐变背景 */
+      border-radius: 15px;
+      padding: 20px 0;
+      margin: 30px 0 50px 0;
+      box-shadow: 0 8px 16px rgba(0,0,0,0.15);
+      position: sticky;
+      top: 0;
+      z-index: 99;
     }
+
     .nav-menu {
       list-style: none;
       display: flex;
       justify-content: center;
       flex-wrap: wrap;
-      gap: 30px;
+      gap: 20px; /* 调整间距适配小屏幕 */
+      padding: 0 20px;
     }
+
     .nav-menu li a {
       color: white;
       text-decoration: none;
       font-size: 1.1rem;
-      padding: 8px 18px;
-      border-radius: 6px;
+      padding: 10px 20px;
+      border-radius: 50px; /* 圆角按钮 */
       transition: all 0.3s ease;
       font-weight: 600;
+      display: inline-block;
+      position: relative;
+      overflow: hidden;
     }
+
+    .nav-menu li a::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: rgba(255,255,255,0.1);
+      transition: all 0.3s ease;
+    }
+
     .nav-menu li a:hover {
-      background-color: #689f38;
-      transform: translateY(-2px);
-      box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+      background-color: rgba(255,255,255,0.2);
+      transform: translateY(-3px);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    }
+
+    .nav-menu li a:hover::before {
+      left: 100%;
     }
 
     h2 {
       color: #e67e22;
-      margin: 40px 0 20px 0;
-      border-left: 6px solid #e67e22;
-      padding-left: 15px;
-      font-size: 1.8rem;
+      margin: 50px 0 25px 0;
+      border-left: 8px solid #e67e22;
+      padding: 10px 20px;
+      font-size: 2rem;
+      background: linear-gradient(90deg, rgba(230,126,34,0.1), transparent);
+      border-radius: 0 8px 8px 0;
+      position: relative;
+    }
+
+    h2::after {
+      content: "";
+      position: absolute;
+      bottom: -5px;
+      left: 20px;
+      width: 60px;
+      height: 3px;
+      background: #e67e22;
+      border-radius: 3px;
     }
 
     p strong {
       color: #388e3c;
-      font-size: 1.2rem;
+      font-size: 1.3rem;
       display: block;
-      margin: 20px 0 10px 0;
+      margin: 25px 0 15px 0;
+      position: relative;
+      padding-left: 20px;
     }
 
+    p strong::before {
+      content: "✦";
+      position: absolute;
+      left: 0;
+      color: #8bc34a;
+    }
+
+    /* 列表样式优化 */
     ul, ol {
-      margin: 10px 0 20px 40px;
-      padding-left: 10px;
+      margin: 15px 0 25px 40px;
+      padding-left: 15px;
     }
+
     ul li, ol li {
-      margin: 8px 0;
-      padding-left: 10px;
+      margin: 12px 0;
+      padding-left: 20px;
       position: relative;
+      transition: all 0.2s ease;
     }
+
+    ul li:hover, ol li:hover {
+      transform: translateX(5px);
+    }
+
+    /* 自定义列表图标 */
     ul li::before {
+      content: "✧";
       color: #e67e22;
       position: absolute;
       left: -20px;
-    }
-    ol li::before {
-      color: #8bc34a;
-      position: absolute;
-      left: -20px;
+      font-size: 1.2rem;
     }
 
+    ol {
+      counter-reset: li-counter;
+      list-style: none;
+    }
+
+    ol li::before {
+      content: counter(li-counter) "·";
+      counter-increment: li-counter;
+      color: #8bc34a;
+      position: absolute;
+      left: -25px;
+      font-weight: bold;
+    }
+
+    /* 表格样式优化 */
     table {
       width: 100%;
       border-collapse: collapse;
-      margin: 15px 0 25px 0;
-      border-radius: 8px;
+      margin: 20px 0 30px 0;
+      border-radius: 12px;
       overflow: hidden;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-    }
-    table th {
-      background-color: #f1f8e9;
-      color: #388e3c;
-      padding: 12px;
-      text-align: center;
-      font-size: 1rem;
-      border: 1px solid #e8f5e9;
-    }
-    table td {
-      padding: 10px;
-      text-align: center;
-      border: 1px solid #e8f5e9;
-      background-color: white;
-    }
-    table tr:hover td {
-      background-color: #f9fbe7;
-      transition: background-color 0.2s;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+      background: white;
     }
 
-    form {
+    table th {
+      background: linear-gradient(135deg, #f1f8e9, #e8f5e9);
+      color: #388e3c;
+      padding: 15px;
+      text-align: center;
+      font-size: 1.1rem;
+      border: none;
+      position: relative;
+    }
+
+    table th::after {
+      content: "";
+      position: absolute;
+      bottom: 0;
+      left: 10%;
+      width: 80%;
+      height: 1px;
+      background: rgba(56, 142, 60, 0.2);
+    }
+
+    table td {
+      padding: 12px 15px;
+      text-align: center;
+      border: none;
+      border-bottom: 1px solid #f1f8e9;
       background-color: white;
-      padding: 25px;
-      border-radius: 12px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      transition: all 0.3s ease;
+    }
+
+    /* 奇偶行区分 */
+    table tr:nth-child(even) td {
+      background-color: #f9fbe7;
+    }
+
+    table tr:hover td {
+      background-color: #e8f5e9;
+      transform: scale(1.01);
+    }
+
+    /* 表单样式优化 */
+    form {
+      background: linear-gradient(135deg, white, #f9fbe7);
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+      margin: 30px 0;
+      border: 1px solid #e8f5e9;
+    }
+
+    form p {
       margin: 20px 0;
     }
-    form p {
-      margin: 15px 0;
-    }
+
     form label {
       color: #8b4513;
       font-weight: 600;
       display: block;
-      margin-bottom: 5px;
+      margin-bottom: 8px;
+      font-size: 1.1rem;
     }
+
     form input[type="text"],
     form textarea {
       width: 100%;
-      padding: 10px;
+      padding: 12px 15px;
       border: 2px solid #e8f5e9;
-      border-radius: 6px;
+      border-radius: 8px;
       font-family: inherit;
       font-size: 1rem;
-      transition: border-color 0.3s;
+      transition: all 0.3s ease;
+      background: rgba(255,255,255,0.8);
     }
+
     form input[type="text"]:focus,
     form textarea:focus {
       outline: none;
       border-color: #8bc34a;
-    }
-    form button {
-      background-color: #8bc34a;
-      color: white;
-      border: none;
-      padding: 12px 30px;
-      border-radius: 8px;
-      font-size: 1.1rem;
-      cursor: pointer;
-      transition: all 0.3s;
-    }
-    form button:hover {
-      background-color: #689f38;
-      transform: translateY(-2px);
-      box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+      box-shadow: 0 0 0 4px rgba(139, 195, 74, 0.1);
+      background: white;
     }
 
+    form button {
+      background: linear-gradient(135deg, #8bc34a, #689f38);
+      color: white;
+      border: none;
+      padding: 14px 40px;
+      border-radius: 50px;
+      font-size: 1.1rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-weight: 600;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+
+    form button:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+    }
+
+    /* 响应式调整 */
+    @media (max-width: 768px) {
+      body {
+        padding: 15px;
+      }
+
+      h1 {
+        font-size: 2.2rem;
+      }
+
+      h2 {
+        font-size: 1.6rem;
+      }
+
+      .nav-menu {
+        gap: 10px;
+      }
+
+      .nav-menu li a {
+        padding: 8px 15px;
+        font-size: 1rem;
+      }
+
+      table {
+        font-size: 0.9rem;
+      }
+
+      table th, table td {
+        padding: 10px 8px;
+      }
+
+      .image-container {
+        gap: 15px;
+      }
+
+      .image-container img {
+        width: 100%;
+        max-width: 300px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .nav-menu {
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .nav-menu li {
+        width: 100%;
+        text-align: center;
+      }
+
+      .nav-menu li a {
+        display: block;
+        width: 80%;
+        margin: 0 auto;
+      }
+
+      h1 {
+        font-size: 1.8rem;
+      }
+
+      h2 {
+        font-size: 1.4rem;
+      }
+    }
   </style>
 </head>
 <body>
 
 <h1>星露谷物语新手攻略&趣味合集</h1>
 
-<div style="display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; margin: 20px 0;">
+<div class="image-container">
   <img src="https://media.9game.cn/gamebase/ieu-eagle-docking-service/images/20231031/8/24/f4db23f56f7572e2dee73c204f79d7d2.jpeg"
-       alt="标准农场" style="width: 400px; max-width: 100%; border-radius: 8px; box-shadow: 0 2px 6px rgba(0,0,0,0.1);">
+       alt="标准农场" loading="lazy">
   <img src="https://ts4.tc.mm.bing.net/th/id/OIP-C.w9JOrHYCfVrkdN8A4QxnYwHaE7?pid=ImgDet&w=474&h=315&rs=1&o=7&rm=3"
-       alt="荒野农场" style="width: 400px; max-width: 100%; border-radius: 8px; box-shadow: 0 2px 6px rgba(0,0,0,0.1);">
+       alt="荒野农场" loading="lazy">
 </div>
-
 
 <div class="nav-container">
   <ul class="nav-menu">
@@ -254,7 +501,6 @@
   <li>中期（10 天后）：中间区域建洒水器（优先做铱金洒水器），周围种啤酒花/蔓越莓（持续收获）；</li>
   <li>后期：左下角建畜牧区（牛/羊），右下角建温室（四季种植稀有作物），留 1 格宽的小路方便移动。</li>
 </ul>
-
 
 <h2 id="npc">NPC好感</h2>
 <p><strong>核心 NPC（优先提升好感，解锁剧情/奖励）</strong></p>
@@ -371,16 +617,49 @@
 <form>
   <p>
     <label>你的游玩时长</label><br>
-    <input type="text" name="playtime" placeholder="比如：50小时">
+    <input type="text" name="playtime" placeholder="比如：50小时" required>
   </p>
   <p>
     <label>留言内容</label><br>
-    <textarea name="message" rows="4" placeholder="分享你的独家农场小技巧吧~"></textarea>
+    <textarea name="message" rows="5" placeholder="分享你的独家农场小技巧吧~" required></textarea>
   </p>
-  <p>
-    <button type="submit">提交</button>
+  <p style="text-align: center; margin-top: 30px;">
+    <button type="submit">提交留言</button>
   </p>
 </form>
+
+<!-- 返回顶部按钮（href改为javascript:void(0)，避免默认行为冲突） -->
+<a href="javascript:void(0)" class="back-to-top" id="backToTop">↑</a>
+
+<script>
+  // 返回顶部按钮逻辑（重写核心交互）
+  const backToTopBtn = document.getElementById('backToTop');
+  
+  // 滚动显示/隐藏按钮
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > 300) {
+      backToTopBtn.classList.add('show');
+    } else {
+      backToTopBtn.classList.remove('show');
+    }
+  });
+
+  // 点击按钮平滑回到顶部（核心修复逻辑）
+  backToTopBtn.addEventListener('click', () => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth' // 平滑滚动回到顶部
+    });
+  });
+
+  // 表单提交提示
+  const form = document.querySelector('form');
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    alert('留言提交成功！感谢你的分享～');
+    form.reset();
+  });
+</script>
 
 </body>
 </html>
